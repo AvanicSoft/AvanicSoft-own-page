@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+.Poppins {
+  font-family: 'Poppins', sans-serif;
+}
+.Roboto {
+  font-family: 'Roboto', sans-serif;
+}
+.Inter{
+    sans:'Inter', 'sans-serif'
+  }
