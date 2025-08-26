@@ -1,4 +1,4 @@
-import Theme from '../../assets/600.png';
+import Theme from '../../assets/Cardback.png';
 import logoImg from '../../assets/AvanicLogo.png';
 
 export default function Back() {
