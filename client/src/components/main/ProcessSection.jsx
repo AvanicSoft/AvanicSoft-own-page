@@ -1,221 +1,165 @@
 import React, { useEffect, useRef, useState } from "react";
-import IdeaImg from "../../assets/main/idea.png"
-import DesignImg from "../../assets/main/Design.png"
-import DevImg from "../../assets/main/Dev.png"
-import TestImg from "../../assets/main/test.png"
-import LounchImg from "../../assets/main/lounch.png"
-import SupoortImg from "../../assets/main/suport.png"
+import IdeaImg from "../../assets/main/idea.png";
+import DesignImg from "../../assets/main/Design.png";
+import DevImg from "../../assets/main/Dev.png";
+import TestImg from "../../assets/main/test.png";
+import LounchImg from "../../assets/main/lounch.png";
+import SupoortImg from "../../assets/main/suport.png";
 
 export default function ServicesScrollPage() {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isSticky, setIsSticky] = useState(true);
+  const [isBottom, setIsBottom] = useState(false);
 
   useEffect(() => {
-    const sections = containerRef.current.querySelectorAll(".service-section");
+    const onScroll = () => {
+      if (!isSticky || isBottom) return;
+      const container = containerRef.current;
+      if (!container) return;
 
-    // Observe sections for fade effect
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveIndex(parseInt(entry.target.dataset.index));
-          }
-        });
-      },
-      { threshold: 0.6 }
+      const scrollY = window.scrollY - container.offsetTop - 80;
+      const index = Math.floor(scrollY / window.innerHeight + 0.5);
+      setActiveIndex(Math.max(0, Math.min(index, 5)));
+    };
+
+    window.addEventListener("scroll", onScroll);
+
+    const topSentinel = document.getElementById("top-sentinel");
+    const topObserver = new IntersectionObserver(
+      ([entry]) => setIsSticky(!entry.isIntersecting),
+      { threshold: 0 }
     );
-    sections.forEach((section) => observer.observe(section));
+    if (topSentinel) topObserver.observe(topSentinel);
 
-    // Observe bottom sentinel to disable sticky header
-    const bottomSentinel =
-      containerRef.current.querySelector("#bottom-sentinel");
+    const bottomSentinel = document.getElementById("bottom-sentinel");
     const bottomObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsSticky(false); // reached bottom → disable sticky
-          } else {
-            setIsSticky(true); // scrolling back up → enable sticky
-          }
-        });
-      },
-      { threshold: 0.1 }
+      ([entry]) => setIsBottom(entry.isIntersecting),
+      { threshold: 0 }
     );
     if (bottomSentinel) bottomObserver.observe(bottomSentinel);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      topObserver.disconnect();
       bottomObserver.disconnect();
     };
-  }, []);
+  }, [isSticky, isBottom]);
 
   return (
-    <div ref={containerRef} className="relative bg-black rounded-xl md:px-20">
-      {/* Header (sticky only until bottom) */}
-      <div
-        className={`${
-          isSticky ? "sticky top-20" : "relative"
-        } py-10 bg-black shadow z-10 p-6 text-left text-white text-5xl md:text-7xl font-bold rounded-xl`}
-      >
-        Our product <br />
-        <span className="text-sky-500">development process</span>
+    <div ref={containerRef} className="relative bg-black md:px-20">
+      <div id="top-sentinel" className="h-1"></div>
+
+      <div className={`sticky top-5 z-20 px-6 text-left text-white shadow-lg
+        transition-all duration-500 ease-in-out
+        ${isSticky && !isBottom ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}>
+        <h1 className="text-4xl md:text-4xl font-extrabold tracking-tight">
+          Our product <br />
+          <span className="text-sky-400">development process</span>
+        </h1>
       </div>
 
-      {/* Section 1 */}
-      <div
-        className={`service-section h-screen flex items-center justify-center transition-opacity duration-700 ${
-          activeIndex === 0 ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        data-index="0"
-      >
-         <div className="h-auto w-2 bg-sky-500"></div>
-        <div className="flex md:flex-row flex-col gap-6 w-3/4 items-center md:justify-between">
-          <div className="text-left">
-            <h2 className="text-4xl md:text-6xl font-bold  mb-4 text-sky-500">Ideate</h2>
-            <p className="text-gray-300 md:text-2xl leading-relaxed max-w-full break-words md:w-100">
-              We analyze your vision thoroughly to ensure the roadmap is
-              perfectly aligned with your end goals, setting the stage for
-              product success.
-            </p>
+      {/* Stepper */}
+      <div className="hidden md:flex flex-col items-center w-16 sticky top-40 z-30">
+        {[0,1,2,3,4,5].map((idx) => (
+          <div key={idx} className="flex flex-col items-center">
+            <div
+              className={`w-4 h-4 rounded-full mb-1 transition-transform duration-300 ${
+                activeIndex === idx ? "bg-sky-400 scale-125" : "bg-gray-700"
+              }`}
+            ></div>
+            {idx < 5 && (
+              <div
+                className={`w-1 h-12 transition-colors duration-300 ${
+                  activeIndex > idx ? "bg-sky-400" : "bg-gray-700"
+                }`}
+              ></div>
+            )}
           </div>
-          <div className="flex justify-center">
-            <img
-              src={IdeaImg}
-              alt="Web Development"
-              className="rounded-2xl shadow-lg"
-            />
-          </div>
-        </div>
+        ))}
       </div>
 
-      {/* Section 2 */}
-      <div
-        className={`service-section h-screen flex items-center justify-center transition-opacity duration-700 ${
-          activeIndex === 1 ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        data-index="1"
-      >
-        <div className="flex md:flex-row flex-col gap-6 w-3/4 items-center md:justify-between">
-          <div className="text-left">
-            <h2 className="text-4xl md:text-6xl font-bold  mb-4 text-sky-500">Design</h2>
-            <p className="text-gray-300 md:text-2xl leading-relaxed max-w-full break-words md:w-100">
-              Crafting a minimal viable product (MVP) that balances design with
-              core functionality, maximizing value and user satisfaction.
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <img
-              src={DesignImg}
-              alt="Mobile Development"
-              className="rounded-2xl shadow-lg"
-            />
-          </div>
-        </div>
-      </div>
+      {/* Slides */}
+      <div className="relative h-[600vh]">
+        <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Section 3 */}
-      <div
-        className={`service-section h-screen flex items-center justify-center transition-opacity duration-700 ${
-          activeIndex === 2 ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        data-index="2"
-      >
-        <div className="flex md:flex-row flex-col gap-6 w-3/4 items-center md:justify-between">
-          <div className="text-left">
-            <h2 className="text-4xl md:text-6xl font-bold  mb-4 text-sky-500">Develop</h2>
-            <p className="text-gray-300 md:text-2xl leading-relaxed max-w-full break-words md:w-100">
-              Developing end-to-end solutions with a focus on feasibility
-              assessment, architecture design, and agile process to ensure
-              rapid, high-quality delivery.
-            </p>
+          {/* Slide 1 */}
+          <div className={`absolute w-full h-full flex flex-col md:flex-row items-center justify-center px-20 gap-12 transition-all duration-700
+            ${activeIndex === 0 ? "opacity-100 translate-y-0" : activeIndex < 0 ? "translate-y-full opacity-0" : "-translate-y-full opacity-0"}`}>
+            <div className="text-left md:w-1/2 space-y-6">
+              <h2 className="text-3xl font-extrabold mb-4 text-sky-500">Ideate</h2>
+              <p className="text-gray-300 text-lg md:text-xl leading-tight">
+                We analyze your vision thoroughly to ensure the roadmap is perfectly aligned with your end goals, setting the stage for product success.
+              </p>
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <img src={IdeaImg} alt="Ideate" className="rounded-2xl shadow-2xl max-h-[400px] object-contain" />
+            </div>
           </div>
-          <div className="flex justify-center">
-            <img
-              src={DevImg}
-              alt="UI/UX Design"
-              className="rounded-2xl shadow-lg"
-            />
+
+          {/* Slide 2 */}
+          <div className={`absolute w-full h-full flex flex-col md:flex-row items-center justify-center px-20 gap-12 transition-all duration-700
+            ${activeIndex === 1 ? "opacity-100 translate-y-0" : activeIndex < 1 ? "translate-y-full opacity-0" : "-translate-y-full opacity-0"}`}>
+            <div className="text-left md:w-1/2 space-y-6">
+              <h2 className="text-3xl font-extrabold mb-4 text-sky-500">Design</h2>
+              <p className="text-gray-300 text-lg md:text-xl leading-tight">Crafting a minimal viable product (MVP) that balances design with core functionality, maximizing value and user satisfaction.</p>
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <img src={DesignImg} alt="Design" className="rounded-2xl shadow-2xl max-h-[400px] object-contain" />
+            </div>
           </div>
-        </div>
-      </div>
-      {/* Section 3 */}
-      <div
-        className={`service-section h-screen flex items-center justify-center transition-opacity duration-700 ${
-          activeIndex === 2 ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        data-index="2"
-      >
-        <div className="flex md:flex-row flex-col gap-6 w-3/4 items-center md:justify-between">
-          <div className="text-left">
-            <h2 className="text-4xl md:text-6xl font-bold  mb-4 text-sky-500">Test</h2>
-            <p className="text-gray-300 md:text-2xl leading-relaxed max-w-full break-words md:w-100">
-              Ensuring your product meets the highest standards of quality and
-              reliability through extensive QA and software testing across all
-              user touch points.
-            </p>
+
+          {/* Slide 3 */}
+          <div className={`absolute w-full h-full flex flex-col md:flex-row items-center justify-center px-20 gap-12 transition-all duration-700
+            ${activeIndex === 2 ? "opacity-100 translate-y-0" : activeIndex < 2 ? "translate-y-full opacity-0" : "-translate-y-full opacity-0"}`}>
+            <div className="text-left md:w-1/2 space-y-6">
+              <h2 className="text-3xl font-extrabold mb-4 text-sky-500">Develop</h2>
+              <p className="text-gray-300 text-lg md:text-xl leading-tight">Developing end-to-end solutions with a focus on feasibility assessment, architecture design, and agile process to ensure rapid, high-quality delivery.</p>
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <img src={DevImg} alt="Develop" className="rounded-2xl shadow-2xl max-h-[400px] object-contain" />
+            </div>
           </div>
-          <div className="flex justify-center">
-            <img
-              src={TestImg}
-              alt="UI/UX Design"
-              className="rounded-2xl shadow-lg"
-            />
+
+          {/* Slide 4 */}
+          <div className={`absolute w-full h-full flex flex-col md:flex-row items-center justify-center px-20 gap-12 transition-all duration-700
+            ${activeIndex === 3 ? "opacity-100 translate-y-0" : activeIndex < 3 ? "translate-y-full opacity-0" : "-translate-y-full opacity-0"}`}>
+            <div className="text-left md:w-1/2 space-y-6">
+              <h2 className="text-3xl font-extrabold mb-4 text-sky-500">Test</h2>
+              <p className="text-gray-300 text-lg md:text-xl leading-tight">Ensuring your product meets the highest standards of quality and reliability through extensive QA and software testing across all user touch points.</p>
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <img src={TestImg} alt="Test" className="rounded-2xl shadow-2xl max-h-[400px] object-contain" />
+            </div>
           </div>
-        </div>
-      </div>
-      {/* Section 3 */}
-      <div
-        className={`service-section h-screen flex items-center justify-center transition-opacity duration-700 ${
-          activeIndex === 2 ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        data-index="2"
-      >
-        <div className="flex md:flex-row flex-col gap-6 w-3/4 items-center md:justify-between">
-           
-          <div className="text-left">
-            <h2 className="text-4xl md:text-6xl font-bold  mb-4 text-sky-500">Launch</h2>
-            <p className="text-gray-300 md:text-2xl leading-relaxed max-w-full break-words md:w-100">
-              Executing a successful product launch by developing tailored
-              deployment plans, executing a smooth rollout, and offering
-              dedicated post-launch assistance.{" "}
-            </p>
+
+          {/* Slide 5 */}
+          <div className={`absolute w-full h-full flex flex-col md:flex-row items-center justify-center px-20 gap-12 transition-all duration-700
+            ${activeIndex === 4 ? "opacity-100 translate-y-0" : activeIndex < 4 ? "translate-y-full opacity-0" : "-translate-y-full opacity-0"}`}>
+            <div className="text-left md:w-1/2 space-y-6">
+              <h2 className="text-3xl font-extrabold mb-4 text-sky-500">Launch</h2>
+              <p className="text-gray-300 text-lg md:text-xl leading-tight">Executing a successful product launch by developing tailored deployment plans, executing a smooth rollout, and offering dedicated post-launch assistance.</p>
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <img src={LounchImg} alt="Launch" className="rounded-2xl shadow-2xl max-h-[400px] object-contain" />
+            </div>
           </div>
-          <div className="flex justify-center">
-            <img
-              src={LounchImg}
-              alt="UI/UX Design"
-              className="rounded-2xl shadow-lg"
-            />
+
+          {/* Slide 6 */}
+          <div className={`absolute w-full h-full flex flex-col md:flex-row items-center justify-center px-20 gap-12 transition-all duration-700
+            ${activeIndex === 5 ? "opacity-100 translate-y-0" : activeIndex < 5 ? "translate-y-full opacity-0" : "-translate-y-full opacity-0"}`}>
+            <div className="text-left md:w-1/2 space-y-6">
+              <h2 className="text-3xl font-extrabold mb-4 text-sky-500">Support</h2>
+              <p className="text-gray-300 text-lg md:text-xl leading-tight">Providing ongoing support and enhancements to ensure continued product success.</p>
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <img src={SupoortImg} alt="Support" className="rounded-2xl shadow-2xl max-h-[400px] object-contain" />
+            </div>
           </div>
-        </div>
-      </div>
-      {/* Section 3 */}
-      <div
-        className={`service-section h-screen flex items-center justify-center transition-opacity duration-700 ${
-          activeIndex === 2 ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        data-index="2"
-      >
-        <div className="flex md:flex-row flex-col gap-6 w-3/4 items-center md:justify-between">
-          <div className="text-left">
-            <h2 className="text-4xl md:text-6xl font-bold  mb-4 text-sky-500">Support</h2>
-            <p className="text-gray-300 md:text-2xl leading-relaxed max-w-full break-words md:w-100">
-              Providing ongoing support and enhancements to ensure continued
-              product success.
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <img
-              src={SupoortImg}
-              alt="UI/UX Design"
-              className="rounded-2xl shadow-lg"
-            />
-          </div>
+
         </div>
       </div>
 
-      {/* Sentinel (marks the bottom) */}
       <div id="bottom-sentinel" className="h-40"></div>
     </div>
   );
