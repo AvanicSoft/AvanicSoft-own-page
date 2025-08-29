@@ -1,5 +1,5 @@
-import Logo from "../components/login-Signup/logo";
-import SignupName from "../components/login-Signup/SiginupName";
+import Logo from "../components/login/logo";
+import SignupName from "../components/login/SiginupName";
 
 export default function Signup() {
   return (

@@ -95,13 +95,13 @@ const App = () => {
           {slidesData.map((_, idx) => (
             <div key={idx} className="flex flex-col items-center">
               <div
-                className={`w-4 h-4 rounded-full mb-1 transition-transform duration-300 ${
+                className={`w-4 h-4 rounded-full my-2  transition-transform duration-300 ${
                   activeIndex === idx ? "bg-sky-400 scale-125" : "bg-gray-700"
                 }`}
               ></div>
               {idx < slidesData.length - 1 && (
                 <div
-                  className={`w-1 h-12 transition-colors duration-300 ${
+                  className={`w-1 h-[8vh] transition-colors duration-300 ${
                     activeIndex > idx ? "bg-sky-400" : "bg-gray-700"
                   }`}
                 ></div>
