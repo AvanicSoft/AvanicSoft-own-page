@@ -14,18 +14,16 @@ import Signup from "./pages/signup";
 import Card from "./pages/Card";
 import Portal from "./pages/portal";
 import Main from "./pages/main";
-import Text from "./components/display/Text"
 
 // Define your routes
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      {/* <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/card" element={<Card />} />
       <Route path="/portal" element={<Portal />} />
-      <Route path="/" element={<Main />} /> */}
-      <Route path="/" element={<Text/>} />
+      <Route path="/" element={<Main />} />
 
 
     </Route>
