@@ -47,6 +47,7 @@ export default function Navbar() {
           </li>
         </ul>
 
+/* Hello */
         {/* Button */}
         <button className="bg-white text-black px-5 py-2 rounded-md transition duration-300 hover:bg-red-600 hover:text-white">
           Get in Touch
