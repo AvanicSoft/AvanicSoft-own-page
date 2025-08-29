@@ -34,7 +34,7 @@ Use two terminal for server and client
 #### 1️⃣ Start the Server
 
 ```bash
-cd AvanicSoft/server
+cd AvanicSoft-own-page/server
 npm install
 nodemon app.js
 ```
@@ -43,7 +43,7 @@ nodemon app.js
 
 #### 1️⃣ Start the Client
 ```bash
-cd AvanicSoft/client
+cd AvanicSoft-own-page/client
 npm install
 npm run dev
 ```
