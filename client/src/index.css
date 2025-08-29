@@ -12,3 +12,13 @@
 .btn-animation{
   
 }
+/* Hide scrollbar for Chrome, Safari, Opera */
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, Firefox */
+.scroll-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
