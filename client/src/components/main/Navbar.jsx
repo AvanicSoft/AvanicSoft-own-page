@@ -76,6 +76,7 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden flex flex-col items-center gap-6 bg-red-800 text-white py-6">
           <a href="#" className="px-4 py-2 rounded-md transition duration-300 hover:bg-red-600">
+
             Home
           </a>
           <a href="#" className="px-4 py-2 rounded-md transition duration-300 hover:bg-red-600">
