@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import IdeaImg from "../../assets/main/idea.png";
-import DesignImg from "../../assets/main/Design.png";
+import DsignImg from "../../assets/main/design.png";
 import DevImg from "../../assets/main/Dev.png";
+
 import TestImg from "../../assets/main/test.png";
 import LounchImg from "../../assets/main/lounch.png";
 import SupoortImg from "../../assets/main/suport.png";
@@ -19,24 +20,25 @@ const steps = [
     description:
       "Our design team crafts intuitive and visually engaging experiences that resonate with your audience while ensuring usability and aesthetics.",
     image: DesignImg,
+
     alt: "Design",
   },
   {
     title: "Develop",
+
     description:
       "Using modern frameworks and agile methodologies, we develop scalable and high-performance solutions tailored to your business needs.",
+
     image: DevImg,
     alt: "Develop",
   },
   {
     title: "Test",
+
     description:
       "Rigorous testing ensures that every feature works flawlessly across platforms, delivering a bug-free, reliable product.",
-    image: TestImg,
-    alt: "Test",
-  },
-  {
-    title: "Launch",
+
+
     description:
       "We handle deployment and launch smoothly, ensuring your product reaches your audience seamlessly with zero downtime.",
     image: LounchImg,
@@ -44,12 +46,16 @@ const steps = [
   },
   {
     title: "Support",
+
     description:
       "Post-launch, we provide continuous support and updates to keep your product secure, efficient, and aligned with evolving business needs.",
     image: SupoortImg,
+
+
     alt: "Support",
   },
 ];
+
 
 export default function ProcessSection() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -81,7 +87,9 @@ export default function ProcessSection() {
 
         <h1 className="text-4xl lg:text-5xl font-extrabold md:mb-12 pt-10 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent tracking-tight">
           Our Process
+
         </h1>
+
 
         <ul className="flex flex-col md:flex-col flex-row space-y-4 w-full md:max-w-xs w-full px-4 md:px-6 overflow-y-auto ">
           {steps.map((step, index) => (
@@ -139,4 +147,6 @@ export default function ProcessSection() {
       </div>
     </div>
   );
-}
+};
+
+export default App;

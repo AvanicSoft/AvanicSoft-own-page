@@ -1,6 +1,6 @@
 export default function Navbar() {
   return (
-    <nav className="bg-black flex justify-between items-center px-10 py-4">
+    <nav className=" sticky top-0 z-100 bg-black flex justify-between items-center px-10 py-4">
       {/* Logo */}
       <h1 className="text-white text-2xl font-bold">avionics.</h1>
 

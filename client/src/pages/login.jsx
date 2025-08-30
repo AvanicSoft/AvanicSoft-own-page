@@ -1,6 +1,6 @@
-import Logo from '../components/login-Signup/logo'
-import LoginEmail from '../components/login-Signup/LoginEmail'
-import LoginSocial from '../components/login-Signup/LoginSocial'
+import Logo from '../components/login/logo'
+import LoginEmail from '../components/login/LoginEmail'
+import LoginSocial from '../components/login/LoginSocial'
 
 export default function Login(){
     return (
