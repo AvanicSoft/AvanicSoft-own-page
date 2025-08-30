@@ -1,148 +1,101 @@
-import React, { useEffect, useRef, useState } from "react";
-import IdeaImg from "../../assets/main/idea.png";
-import DsignImg from "../../assets/main/design.png";
-import DevImg from "../../assets/main/Dev.png";
-import TestImg from "../../assets/main/test.png";
-import LounchImg from "../../assets/main/lounch.png";
-import SupportImg from "../../assets/main/suport.png";
+import { useState } from "react";
+import {
+  FaSwift,
+  FaAndroid,
+  FaReact,
+  FaDatabase,
+  FaCloud,
+  FaGamepad,
+} from "react-icons/fa";
+import { SiKotlin, SiFlutter, SiMongodb, SiDocker } from "react-icons/si";
 
-const slidesData = [
-  {
-    title: "Ideate",
-    description:
-      "We analyze your vision thoroughly to ensure the roadmap is perfectly aligned with your end goals, setting the stage for product success.",
-    image: IdeaImg,
-    alt: "Ideate",
+const techData = {
+  "Mobile Apps": {
+    IOS: [
+      { icon: FaSwift, label: "Swift" },
+      { icon: FaSwift, label: "Combine" },
+    ],
+    Android: [
+      { icon: SiKotlin, label: "Kotlin" },
+      { icon: FaAndroid, label: "Java" },
+    ],
   },
-  {
-    title: "Design",
-    description:
-      "Crafting a minimal viable product (MVP) that balances design with core functionality, maximizing value and user satisfaction.",
-    image: DsignImg,
-    alt: "Design",
+  "Web Platforms": {
+    Frontend: [
+      { icon: FaReact, label: "React" },
+      { icon: FaReact, label: "Next.js" },
+    ],
+    Backend: [
+      { icon: FaReact, label: "Node.js" },
+      { icon: FaReact, label: "Express" },
+    ],
   },
-  {
-    title: "Develop",
-    description:
-      "Developing end-to-end solutions with a focus on feasibility assessment, architecture design, and agile process to ensure rapid, high-quality delivery.",
-    image: DevImg,
-    alt: "Develop",
+  "Cross Platforms": {
+    React: [{ icon: FaReact, label: "React Native" }],
+    Flutter: [{ icon: SiFlutter, label: "Flutter" }],
   },
-  {
-    title: "Test",
-    description:
-      "Ensuring your product meets the highest standards of quality and reliability through extensive QA and software testing across all user touch points.",
-    image: TestImg,
-    alt: "Test",
+  Games: {
+    Engines: [{ icon: FaGamepad, label: "Unity" }],
+    Servers: [{ icon: FaReact, label: "Photon" }],
   },
-  {
-    title: "Launch",
-    description:
-      "Executing a successful product launch by developing tailored deployment plans, executing a smooth rollout, and offering dedicated post-launch assistance.",
-    image: LounchImg,
-    alt: "Launch",
+  Database: {
+    Database: [
+      { icon: FaDatabase, label: "MySQL" },
+      { icon: SiMongodb, label: "MongoDB" },
+    ],
   },
-  {
-    title: "Support",
-    description:
-      "Providing ongoing support and enhancements to ensure continued product success.",
-    image: SupportImg,
-    alt: "Support",
+  "Cloud DevOps": {
+    DevOps: [{ icon: SiDocker, label: "Docker" }],
+    Cloud: [{ icon: FaCloud, label: "AWS" }],
   },
-];
+};
 
-const App = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const slideRefs = useRef([]);
-
-  useEffect(() => {
-    // We observe each slide to determine which one is in the center of the viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Find the index of the intersecting slide and set it as active
-            const index = slideRefs.current.indexOf(entry.target);
-            setActiveIndex(index);
-          }
-        });
-      },
-      {
-        // The threshold is set to 0.5, meaning the callback will fire when
-        // 50% of the element is visible in the viewport.
-        threshold: 0.5,
-      }
-    );
-
-    // Observe each slide element
-    slideRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+export default function TechnologiesSection() {
+  const [activeTab, setActiveTab] = useState("Mobile Apps");
 
   return (
-    <div className="bg-black text-white p-6 md:p-12 font-sans">
-      {/* Header is now sticky to stay at the top */}
-      <div className="sticky top-0 z-20 flex justify-between items-center mb-10 py-4 bg-black">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          Our product <br />
-          <span className="text-sky-400">development process</span>
-        </h1>
-      </div>
+    <div className="md:px-20 px-5 py-10 bg-gray-50 rounded-2xl">
+      <h1 className="text-4xl font-bold py-5">Technologies We Use</h1>
+      <p className="py-3 text-lg max-w-3xl text-gray-600">
+        Hire from our pool of 350+ experts in mobile, web, and software
+        engineering. We specialize in the latest technologies and frameworks.
+      </p>
 
-      <div className="flex">
-        {/* Stepper is also sticky to stay alongside the slides */}
-        <div className="hidden md:flex flex-col items-center w-16 h-screen sticky top-1/4 mr-0 ml-10">
-          {slidesData.map((_, idx) => (
-            <div key={idx} className="flex flex-col items-center">
-              <div
-                className={`w-4 h-4 rounded-full mb-1 transition-transform duration-300 ${
-                  activeIndex === idx ? "bg-sky-400 scale-125" : "bg-gray-700"
-                }`}
-              ></div>
-              {idx < slidesData.length - 1 && (
-                <div
-                  className={`w-1 h-12 transition-colors duration-300 ${
-                    activeIndex > idx ? "bg-sky-400" : "bg-gray-700"
-                  }`}
-                ></div>
-              )}
+      <div className="flex flex-col md:flex-row border-t mt-6">
+        {/* Tabs */}
+        <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:w-1/4 py-5">
+          {Object.keys(techData).map((tab) => (
+            <div
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-5 py-3 rounded-lg cursor-pointer font-semibold whitespace-nowrap transition 
+              ${
+                activeTab === tab
+                  ? "bg-green-100 text-green-700 border-l-4 border-green-500"
+                  : "hover:bg-gray-100 text-gray-700"
+              }`}
+            >
+              {tab}
             </div>
           ))}
         </div>
 
-        {/* This div creates the full-page scrollable height and holds the slides */}
-        <div
-          style={{ height: `${slidesData.length * 100}vh` }}
-          className="flex-1"
-        >
-          {slidesData.map((slide, index) => (
-            <div
-              key={index}
-              ref={(el) => (slideRefs.current[index] = el)}
-              className="h-screen w-full flex flex-col md:flex-row items-center justify-center px-12 md:px-20 gap-12"
-            >
-              {/* Text Section */}
-              <div className="text-left md:w-1/2 space-y-6">
-                <h2 className="text-3xl font-extrabold mb-4 text-sky-500">
-                  {slide.title}
-                </h2>
-                <p className="text-gray-300 text-lg md:text-xl leading-tight">
-                  {slide.description}
-                </p>
-              </div>
-
-              {/* Image Section */}
-              <div className="md:w-1/2 flex justify-center">
-                <img
-                  src={slide.image}
-                  alt={slide.alt}
-                  className="rounded-2xl shadow-2xl max-h-[400px] object-contain"
-                />
+        {/* Content */}
+        <div className="px-5 md:px-10 py-5 w-full border-t md:border-t-0 md:border-l">
+          {Object.entries(techData[activeTab]).map(([category, items]) => (
+            <div key={category} className="mb-6">
+              <h2 className="text-2xl font-bold mb-4">{category}</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {items.map(({ icon: Icon, label }) => (
+                  <button
+                    key={label}
+                    className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-white shadow 
+                    hover:shadow-md transition transform hover:-translate-y-1 hover:bg-green-50"
+                  >
+                    <span className="font-medium text-gray-800">{label}</span>
+                    <Icon className="text-2xl text-green-600" />
+                  </button>
+                ))}
               </div>
             </div>
           ))}
@@ -150,6 +103,4 @@ const App = () => {
       </div>
     </div>
   );
-};
-
-export default App;
+}
