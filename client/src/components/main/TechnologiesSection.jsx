@@ -55,7 +55,7 @@ export default function TechnologiesSection() {
 
   return (
     <div className="md:px-20 px-5 py-10 bg-gray-50 rounded-2xl">
-      <h1 className="text-4xl font-bold py-5">Technologies We Use</h1>
+      <h1 className="text-4xl font-extrabold py-5">Technologies We Use</h1>
       <p className="py-3 text-lg max-w-3xl text-gray-600">
         Hire from our pool of 350+ experts in mobile, web, and software
         engineering. We specialize in the latest technologies and frameworks.
@@ -68,7 +68,7 @@ export default function TechnologiesSection() {
             <div
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-3 rounded-lg cursor-pointer font-semibold whitespace-nowrap transition 
+              className={`px-5 py-5 rounded-lg cursor-pointer font-semibold whitespace-nowrap transition 
               ${
                 activeTab === tab
                   ? "bg-green-100 text-green-700 border-l-4 border-green-500"
@@ -89,7 +89,7 @@ export default function TechnologiesSection() {
                 {items.map(({ icon: Icon, label }) => (
                   <button
                     key={label}
-                    className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-white shadow 
+                    className="flex items-center justify-between gap-2 px-4 py-5 rounded-xl bg-white shadow 
                     hover:shadow-md transition transform hover:-translate-y-1 hover:bg-green-50"
                   >
                     <span className="font-medium text-gray-800">{label}</span>

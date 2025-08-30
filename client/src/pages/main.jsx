@@ -14,8 +14,8 @@ export default function main(){
             <HeroSection/>
             <ClientLogos/>
             <CallToAction/>
-            <ServiceSection/>
             <ProcessSection/>
+            <ServiceSection/>
             <TechnologiesSection/>
             <TeamCTA/>
         </div>
