@@ -2,132 +2,148 @@ import React, { useEffect, useRef, useState } from "react";
 import IdeaImg from "../../assets/main/idea.png";
 import DsignImg from "../../assets/main/design.png";
 import DevImg from "../../assets/main/Dev.png";
-import TestImg from "../../assets/main/test.png"; 
-import LounchImg from "../../assets/main/lounch.png"; 
-import SupportImg from "../../assets/main/suport.png"; 
 
+import TestImg from "../../assets/main/test.png";
+import LounchImg from "../../assets/main/lounch.png";
+import SupoortImg from "../../assets/main/suport.png";
 
-const slidesData = [
+const steps = [
   {
     title: "Ideate",
-    description: "We analyze your vision thoroughly to ensure the roadmap is perfectly aligned with your end goals, setting the stage for product success.",
-    image:IdeaImg,
+    description:
+      "We analyze your vision thoroughly to ensure the roadmap is perfectly aligned with your end goals, setting the stage for product success.",
+    image: IdeaImg,
     alt: "Ideate",
   },
   {
     title: "Design",
-    description: "Crafting a minimal viable product (MVP) that balances design with core functionality, maximizing value and user satisfaction.",
-    image: DsignImg,
+    description:
+      "Our design team crafts intuitive and visually engaging experiences that resonate with your audience while ensuring usability and aesthetics.",
+    image: DesignImg,
+
     alt: "Design",
   },
   {
     title: "Develop",
-    description: "Developing end-to-end solutions with a focus on feasibility assessment, architecture design, and agile process to ensure rapid, high-quality delivery.",
+
+    description:
+      "Using modern frameworks and agile methodologies, we develop scalable and high-performance solutions tailored to your business needs.",
+
     image: DevImg,
     alt: "Develop",
   },
   {
     title: "Test",
-    description: "Ensuring your product meets the highest standards of quality and reliability through extensive QA and software testing across all user touch points.",
-    image: TestImg,
-    alt: "Test",
-  },
-  {
-    title: "Launch",
-    description: "Executing a successful product launch by developing tailored deployment plans, executing a smooth rollout, and offering dedicated post-launch assistance.",
-    image:LounchImg,
+
+    description:
+      "Rigorous testing ensures that every feature works flawlessly across platforms, delivering a bug-free, reliable product.",
+
+
+    description:
+      "We handle deployment and launch smoothly, ensuring your product reaches your audience seamlessly with zero downtime.",
+    image: LounchImg,
     alt: "Launch",
   },
   {
     title: "Support",
-    description: "Providing ongoing support and enhancements to ensure continued product success.",
-    image: SupportImg,
+
+    description:
+      "Post-launch, we provide continuous support and updates to keep your product secure, efficient, and aligned with evolving business needs.",
+    image: SupoortImg,
+
+
     alt: "Support",
   },
 ];
 
-const App = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+
+export default function ProcessSection() {
+  const [currentStep, setCurrentStep] = useState(0);
   const slideRefs = useRef([]);
 
+
   useEffect(() => {
-    // We observe each slide to determine which one is in the center of the viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Find the index of the intersecting slide and set it as active
             const index = slideRefs.current.indexOf(entry.target);
-            setActiveIndex(index);
+            if (index !== -1) setCurrentStep(index);
           }
         });
       },
       {
-        // The threshold is set to 0.5, meaning the callback will fire when
-        // 50% of the element is visible in the viewport.
         threshold: 0.5,
       }
     );
-
-    // Observe each slide element
-    slideRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
+    slideRefs.current.forEach((ref) => ref && observer.observe(ref));
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <div className="bg-black text-white p-6 md:p-12 font-sans">
-      {/* Header is now sticky to stay at the top */}
-      <div className="sticky top-0 z-20 flex justify-between items-center mb-10 py-4 bg-black">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          Our product <br />
-          <span className="text-sky-400">development process</span>
+    <div className="flex flex-col md:flex-row w-full min-h-screen bg-gradient-to-b from-gray-950 to-black text-white">
+
+      <div className="relative md:w-1/3 sticky top-0 md:h-screen flex  flex-col items-center justify-start bg-gray-950/80 backdrop-blur border-r border-gray-800">
+
+        <h1 className="text-4xl lg:text-5xl font-extrabold md:mb-12 pt-10 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent tracking-tight">
+          Our Process
+
         </h1>
+
+
+        <ul className="flex flex-col md:flex-col flex-row space-y-4 w-full md:max-w-xs w-full px-4 md:px-6 overflow-y-auto ">
+          {steps.map((step, index) => (
+            <li
+              key={index}
+              className={`cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 text-lg lg:text-xl
+          ${
+            currentStep === index
+              ? "text-green-400 font-semibold bg-gray-800 shadow-md shadow-green-500/20"
+              : "text-gray-400 hover:text-green-300"
+          }`}
+              onClick={() =>
+                slideRefs.current[index]?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                })
+              }
+            >
+              {step.title}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <div className="flex">
-        {/* Stepper is also sticky to stay alongside the slides */}
-        <div className="hidden md:flex flex-col items-center w-16 h-screen sticky top-1/4 mr-12">
-          {slidesData.map((_, idx) => (
-            <div key={idx} className="flex flex-col items-center">
-              <div
-                className={`w-4 h-4 rounded-full my-2  transition-transform duration-300 ${
-                  activeIndex === idx ? "bg-sky-400 scale-125" : "bg-gray-700"
-                }`}
-              ></div>
-              {idx < slidesData.length - 1 && (
-                <div
-                  className={`w-1 h-[8vh] transition-colors duration-300 ${
-                    activeIndex > idx ? "bg-sky-400" : "bg-gray-700"
-                  }`}
-                ></div>
-              )}
-            </div>
-          ))}
-        </div>
 
-        {/* This div creates the full-page scrollable height and holds the slides */}
-        <div style={{ height: `${slidesData.length * 100}vh` }} className="flex-1">
-          {slidesData.map((slide, index) => (
-            <div
-              key={index}
-              ref={(el) => (slideRefs.current[index] = el)}
-              className="h-screen w-full flex flex-col md:flex-row items-center justify-center px-12 md:px-20 gap-12"
-            >
-              <div className="text-left md:w-1/2 space-y-6">
-                <h2 className={`text-3xl font-extrabold mb-4 text-sky-500 transition-all duration-700 delay-200 transform ${activeIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>{slide.title}</h2>
-                <p className={`text-gray-300 text-lg md:text-xl leading-tight transition-all duration-700 delay-300 transform ${activeIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>{slide.description}</p>
-              </div>
-              <div className="md:w-1/2 flex justify-center">
-                <img src={slide.image} alt={slide.alt} className={`rounded-2xl shadow-2xl max-h-[400px] object-contain transition-all duration-700 delay-500 transform ${activeIndex === index ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`} />
-              </div>
+      <div className="flex-1 px-4 sm:px-6 md:px-10 py-10 md:py-16 space-y-12">
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            ref={(el) => (slideRefs.current[index] = el)}
+            className="min-h-[70vh] w-full flex flex-col md:flex-row bg-gradient-to-br from-gray-900/80 to-gray-800/70 
+                       items-center justify-center px-6 sm:px-8 md:px-12 gap-6 md:gap-12 rounded-2xl shadow-lg 
+                       border border-gray-700 transition-all duration-500 hover:shadow-green-500/10"
+          >
+
+            <div className="flex justify-center w-full md:w-1/2 mb-4 md:mb-0">
+              <img
+                src={step.image}
+                alt={step.alt}
+                className="rounded-xl w-60 sm:w-64 md:w-full max-w-sm shadow-md border border-gray-700 hover:scale-105 transition-transform duration-300"
+              />
             </div>
-          ))}
-        </div>
+
+
+            <div className="text-center md:text-left max-w-xl space-y-4 md:space-y-5">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-green-400 leading-snug tracking-tight">
+                {step.title}
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-gray-300">
+                {step.description}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
