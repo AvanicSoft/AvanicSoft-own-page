@@ -1,8 +1,10 @@
 
 
 import { FaMobileAlt, FaCode,  FaRobot,FaLaptopCode,FaBullhorn,FaVideo } from 'react-icons/fa';
+
 const services = [
 {
+
   title: 'Web Development',
   icon: <FaLaptopCode className="text-blue-600 text-3xl" />,
   description:
@@ -42,7 +44,7 @@ const services = [
 ];
 
 export default function ServiceSection() {
-    //   const confettiRef = useRef(null)
+    
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 text-center">
@@ -66,6 +68,7 @@ export default function ServiceSection() {
           confettiRef.current?.fire({});
         }}
       /> */}
+      
         </div>
       </div>
 
