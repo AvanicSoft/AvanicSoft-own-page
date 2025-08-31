@@ -78,25 +78,23 @@ export default function ProcessSection() {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row w-full min-h-screen bg-gradient-to-b from-gray-950 to-black text-white">
+    <div className="flex flex-col md:flex-row md:px-10 px-5 w-full min-h-screen bg-gray-900 text-white">
+      <div className="relative md:w-1/3 sticky top-0 z-100 md:h-screen flex  bg-gray-900  flex-col items-center justify-start  md:border-r-[1px] border-gray-700">
 
-      <div className="relative md:w-1/3 sticky top-0 md:h-screen flex  flex-col items-center justify-start bg-gray-950/80 backdrop-blur border-r border-gray-800">
-
-        <h1 className="text-4xl lg:text-5xl font-extrabold md:mb-12 pt-20 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent tracking-tight">
-          Our Process
-
+        <h1 className="text-4xl lg:text-5xl font-extrabold md:mb-12 pt-20  text-white-400 tracking-tight">
+          Our Process 
         </h1>
 
 
-        <ul className="flex flex-col md:flex-col flex-row space-y-5 w-full md:max-w-xs w-full px-4 md:px-6 overflow-y-auto ">
+        <ul className="flex flex-col md:flex-col scroll-hide flex-row space-y-5 w-full md:max-w-xs w-full px-4 md:px-6 overflow-y-auto ">
           {steps.map((step, index) => (
             <li
               key={index}
-              className={`cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 text-lg lg:text-xl
+              className={`cursor-pointer  px-4 py-4 my-2 rounded-lg transition-all duration-300 text-lg lg:text-xl
           ${
             currentStep === index
-              ? "text-green-400 font-semibold bg-gray-800 shadow-md shadow-green-500/20"
-              : "text-gray-400 hover:text-green-300"
+              ? "text-white font-semibold bg-purple-600 shadow-md shadow-purple-500/20"
+              : "text-white hover:text-purple-300"
           }`}
               onClick={() =>
                 slideRefs.current[index]?.scrollIntoView({
@@ -117,22 +115,22 @@ export default function ProcessSection() {
           <div
             key={index}
             ref={(el) => (slideRefs.current[index] = el)}
-            className="min-h-[70vh] w-full flex flex-col md:flex-row bg-gradient-to-br from-gray-900/80 to-gray-800/70 
-                       items-center justify-center px-6 sm:px-8 md:px-12 gap-6 md:gap-12 rounded-2xl shadow-lg 
-                       border border-gray-700 transition-all duration-500 hover:shadow-green-500/10"
+            className="min-h-[70vh] w-full flex flex-col md:flex-row bg-transparent
+                       items-center justify-center px-6 sm:px-8 md:px-12 gap-6 md:gap-12 rounded-2xl shadow-sm 
+                       border border-gray-700 transition-all duration-500 hover:shadow-purple-500/10"
           >
 
-            <div className="flex justify-center w-full md:w-1/2 mb-4 md:mb-0">
+            <div className="flex justify-center w-full md:w-2/3 mb-4 md:mb-0">
               <img
                 src={step.image}
                 alt={step.alt}
-                className="rounded-xl w-60 sm:w-64 md:w-full max-w-sm shadow-md border border-gray-700 hover:scale-105 transition-transform duration-300"
+                className="rounded-xl w-60 sm:w-64 md:w-full max-w-sm"
               />
             </div>
 
 
             <div className="text-center md:text-left max-w-xl space-y-4 md:space-y-5">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-green-400 leading-snug tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-purple-400 leading-snug tracking-tight">
                 {step.title}
               </h2>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-gray-300">

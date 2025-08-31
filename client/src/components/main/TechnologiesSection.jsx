@@ -54,7 +54,7 @@ export default function TechnologiesSection() {
   const [activeTab, setActiveTab] = useState("Mobile Apps");
 
   return (
-    <div className="md:px-20 px-5 py-10 bg-gray-50 rounded-2xl">
+    <div className="md:px-10 px-5 py-10  rounded-2xl">
       <h1 className="text-4xl font-extrabold py-5">Technologies We Use</h1>
       <p className="py-3 text-lg max-w-3xl text-gray-600">
         Hire from our pool of 350+ experts in mobile, web, and software
@@ -63,7 +63,7 @@ export default function TechnologiesSection() {
 
       <div className="flex flex-col md:flex-row border-t mt-6">
         {/* Tabs */}
-        <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:w-1/4 py-5">
+        <div className="flex scroll-hide flex-row md:flex-col gap-2 overflow-x-auto md:w-1/4 py-5">
           {Object.keys(techData).map((tab) => (
             <div
               key={tab}
@@ -71,7 +71,7 @@ export default function TechnologiesSection() {
               className={`px-5 py-5 rounded-lg cursor-pointer font-semibold whitespace-nowrap transition 
               ${
                 activeTab === tab
-                  ? "bg-green-100 text-green-700 border-l-4 border-green-500"
+                  ? "bg-purple-100 text-purple-700 border-l-4 border-purple-500"
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
@@ -89,11 +89,11 @@ export default function TechnologiesSection() {
                 {items.map(({ icon: Icon, label }) => (
                   <button
                     key={label}
-                    className="flex items-center justify-between gap-2 px-4 py-5 rounded-xl bg-white shadow 
-                    hover:shadow-md transition transform hover:-translate-y-1 hover:bg-green-50"
+                    className="flex cursor-pointer items-center justify-between gap-2 px-4 py-5 rounded-xl bg-white shadow 
+                    hover:shadow-md transition transform hover:-translate-y-1 hover:bg-purple-50"
                   >
                     <span className="font-medium text-gray-800">{label}</span>
-                    <Icon className="text-2xl text-green-600" />
+                    <Icon className="text-2xl text-purple-600" />
                   </button>
                 ))}
               </div>
