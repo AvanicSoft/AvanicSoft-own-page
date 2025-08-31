@@ -3,10 +3,10 @@ import { Code, Rocket, Target, ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative bg-gray-900 overflow-hidden">
+    <section className="relative bg-gray-900 overflow-hidden md:px-10 px-5">
     
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-900 to-gray-900"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gray-900"></div>
       </div>
       
       {/* Floating geometric shapes */}
@@ -36,11 +36,11 @@ const HeroSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-              <button className="inline-flex items-center px-8 py-4 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+              <button className="inline-flex cursor-pointer items-center px-8 py-4 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
                 Start Your Project
                 <ArrowRight className="ml-2 w-5 h-5" />
               </button>
-              <button className="inline-flex items-center px-8 py-4 border-2 border-purple-400 text-purple-400 font-semibold rounded-lg hover:bg-purple-400 hover:text-white transition-all duration-200">
+              <button className="inline-flex cursor-pointer  items-center px-8 py-4 border-2 border-purple-400 text-purple-400 font-semibold rounded-lg hover:bg-purple-400 hover:text-white transition-all duration-200">
                 View Our Work
               </button>
             </div>
