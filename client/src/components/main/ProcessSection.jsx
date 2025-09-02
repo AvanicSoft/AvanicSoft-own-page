@@ -79,21 +79,21 @@ export default function ProcessSection() {
 
   return (
     <div className="flex flex-col md:flex-row md:px-10 px-5 w-full min-h-screen bg-gray-900 text-white">
-      <div className="relative md:w-1/3 sticky top-0 z-100 md:h-screen flex  bg-gray-900  flex-col items-center justify-start  md:border-r-[1px] border-gray-700">
+      <div className="relative md:w-1/3 sticky top-0 z-100 md:h-screen flex  bg-gray-900  flex-col items-center justify-start ">
 
-        <h1 className="text-4xl lg:text-5xl font-extrabold md:mb-12 pt-20  text-white-400 tracking-tight">
-          Our Process 
-        </h1>
+    <h1 className="text-4xl md:text-4xl lg:text-6xl font-bold text-white pt-2 mb-4 leading-tight">
+              <span className="text-purple-400">Development </span> 
+              Process
+            </h1>
 
-
-        <ul className="flex flex-col md:flex-col scroll-hide flex-row space-y-5 w-full md:max-w-xs w-full px-4 md:px-6 overflow-y-auto ">
+        <ul className="flex flex-col md:flex-col scroll-hide flex-row space-y-5 w-full md:max-w-xs w-full   overflow-y-auto ">
           {steps.map((step, index) => (
             <li
               key={index}
               className={`cursor-pointer  px-4 py-4 my-2 rounded-lg transition-all duration-300 text-lg lg:text-xl
           ${
             currentStep === index
-              ? "text-white font-semibold bg-purple-600 shadow-md shadow-purple-500/20"
+              ? "text-white font-semibold bg-purple-600 "
               : "text-white hover:text-purple-300"
           }`}
               onClick={() =>
@@ -115,7 +115,7 @@ export default function ProcessSection() {
           <div
             key={index}
             ref={(el) => (slideRefs.current[index] = el)}
-            className="min-h-[70vh] w-full flex flex-col md:flex-row bg-transparent
+            className="min-h-[70vh] w-full flex flex-col md:flex-row bg-white/10 back-transparent
                        items-center justify-center px-6 sm:px-8 md:px-12 gap-6 md:gap-12 rounded-2xl shadow-sm 
                        border border-gray-700 transition-all duration-500 hover:shadow-purple-500/10"
           >

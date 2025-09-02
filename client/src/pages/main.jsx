@@ -11,11 +11,11 @@ import TechnologiesSection from "../components/main/TechnologiesSection"
 export default function main(){
     return(
         <div>
-            <HeroSection/>
-            <ClientLogos/>
             <CallToAction/>
+            <ClientLogos/>
             <ProcessSection/>
             <ServiceSection/>
+            <HeroSection/>
             <TechnologiesSection/>
             <TeamCTA/>
         </div>
