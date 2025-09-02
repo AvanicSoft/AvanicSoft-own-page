@@ -2,10 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const EmpRoutes = require('./routes/Emp');
+const contact = require('./routes/contact')
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 
 mongoose.connect('mongodb://localhost:27017/Emp')
   .then(() => console.log("MongoDB connected"))
@@ -13,6 +16,7 @@ mongoose.connect('mongodb://localhost:27017/Emp')
 
 
 app.use('/api/records', EmpRoutes);
+app.use('/api/contact',contact )
 
 
 const PORT = 5000;
