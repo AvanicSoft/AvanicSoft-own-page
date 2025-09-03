@@ -10,7 +10,7 @@ import {
 
 // Pages
 import Main from "./pages/main";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Card from "./pages/Card";
 import Portal from "./pages/Portal";
