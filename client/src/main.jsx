@@ -13,7 +13,7 @@ import Main from "./pages/main";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Card from "./pages/Card";
-import Portal from "./pages/Portal";
+import Portal from "./pages/portal";
 import Layout from "./pages/Layout";
 
 // Define your routes
