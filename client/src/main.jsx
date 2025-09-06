@@ -19,14 +19,16 @@ import Work from "./pages/Work";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
+    <>
     <Route path="/" element={<Layout />}>
       <Route index element={<Main />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="card" element={<Card />} />
-      <Route path="portal" element={<Portal />} />
       <Route path="work" element={<Work />} />
     </Route>
+      <Route path="portal" element={<Portal />} />
+    </>
   )
 );
 
