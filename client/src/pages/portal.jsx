@@ -1,317 +1,357 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import logoimg from '../assets/AvanicLogo.png'
-import newlogo from '../assets/tg.png'
-import { useNavigate } from 'react-router-dom';
 
-const Portal = () => {
-  const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const formRef = useRef(null);
+const BACKEND_URL = "http://localhost:5000";
 
-  const [form, setForm] = useState({
-    name: "",
-    designation: "",
-    email: "",
-    contact: "",
-    location: "",
-  });
+export default function Work() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [cardsData, setCardsData] = useState([]);
+  const [formOpen, setFormOpen] = useState(false);
+  const [addNew, setAddNew] = useState([
+    { id: 1, title: "", description: "", video: "", category: "" },
+  ]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentEdit, setCurrentEdit] = useState(null);
 
-  const [records, setRecords] = useState([]);
-  const [editIndex, setEditIndex] = useState(null); 
-  const [editId, setEditId] = useState(null);      
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/api/works/All`);
+      setCardsData(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:5000/api/records/allEmp")
-      .then((res) => setRecords(res.data))
-      .catch((err) => console.error("Fetch error:", err));
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (formRef.current && !formRef.current.contains(event.target)) {
-        setShowForm(false);
-      }
-    };
-
-    if (showForm) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showForm]);
-
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  // Add new work
+  const uploadSaveHandler = async () => {
     try {
-      if (editId) {
-        // PUT (Update)
-        const res = await axios.put(`http://localhost:5000/api/records/${editId}`, form);
-        const updated = [...records];
-        updated[editIndex] = res.data;
-        setRecords(updated);
-      } else {
-        // POST (Create)
-        const res = await axios.post("http://localhost:5000/api/records/newEmp", form);
-        setRecords([...records, res.data]);
-      }
-    } catch (error) {
-      console.error("Submit error:", error);
-    }
+      const formData = new FormData();
+      formData.append("title", addNew[0].title);
+      formData.append("description", addNew[0].description);
+      formData.append("category", addNew[0].category);
+      formData.append("file", addNew[0].video);
 
-    // Reset form and edit state
-    setForm({
-      name: "",
-      designation: "",
-      email: "",
-      contact: "",
-      location: "",
-    });
-    setEditIndex(null);
-    setEditId(null);
-    setShowForm(false);
+      await axios.post(`${BACKEND_URL}/api/works/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      setFormOpen(false);
+      fetchData();
+      setAddNew([{ id: 1, title: "", description: "", video: "", category: "" }]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-
-  const handleDelete = async (index, id) => {
+  // Save edits
+  const handleEditSave = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/records/${id}`);
-      const updated = records.filter((_, i) => i !== index);
-      setRecords(updated);
-    } catch (error) {
-      console.error("Delete error:", error);
+      const formData = new FormData();
+      formData.append("title", currentEdit.title);
+      formData.append("description", currentEdit.description);
+      formData.append("category", currentEdit.category);
+      if (currentEdit.video instanceof File) {
+        formData.append("file", currentEdit.video);
+      }
+
+      await axios.put(`${BACKEND_URL}/api/works/edit/${currentEdit._id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setIsEditing(false);
+      setCurrentEdit(null);
+      fetchData(); // reload updated cards
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const handleEdit = (index) => {
-    const selected = records[index];
-    setForm(selected);
-    setEditIndex(index);
-    setEditId(selected._id);
-    setShowForm(true);
+  const categories = [...new Set(cardsData.map((card) => card.category))];
+
+  const filteredCards = searchTerm
+    ? cardsData.filter((card) => card.category === searchTerm)
+    : cardsData;
+
+  const handleEditClick = (card) => {
+    setCurrentEdit(card);
+    setIsEditing(true);
   };
-  const handleDownload = (index, id) => {
-      navigate(`/card/${id}`);
-    };
+
+  const handleEditCancel = () => {
+    setIsEditing(false);
+    setCurrentEdit(null);
+  };
 
   return (
-    <div className="flex flex-row">
-      {isSidebarOpen && (
-        <div className="...">
-          <div className="shadow-md shadow-black border-black w-85 h-[100vh] flex flex-col justify-between bg-[#F7F7F7] font-serif z-20 pt-3 pl-1.5 pr-1">
-            <div className=" flex flex-col">
-              <div className="flex flex-row justify-between m-1 mt-2">
-                <img src={newlogo} alt="img" className="w-20 mr-1" />
-                <div className="border-r-2 border-blue mt-1"> </div>
-                <div className="text-cyan-900 font-serif ml-1">
-                  <p className="text-3xl font-bold">Avanic soft </p>
-                  <p className="font-bold">techonologies</p>
-                </div>
-                <button
-                  onClick={() => setIsSidebarOpen(false)}
-                  className="rounded-[50%] bg-white w-8 h-8  pt-1 shadow-md  "
-                >
-                  <i class="fa-solid fa-angles-left hover:text-blue-600 transition-colors duration-300 cursor-pointer"></i>
-                </button>
+    <div className="w-full flex flex-col items-center justify-center mt-10">
+      {/* Add New Form */}
+      {formOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg w-96">
+            <h2 className="text-2xl mb-4">Add New Work</h2>
+            {addNew.map((item, index) => (
+              <div key={item.id} className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Title"
+                  className="w-full mb-2 p-2 border border-gray-300 rounded"
+                  value={item.title}
+                  onChange={(e) => {
+                    const newAdd = [...addNew];
+                    newAdd[index].title = e.target.value;
+                    setAddNew(newAdd);
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="Description"
+                  className="w-full mb-2 p-2 border border-gray-300 rounded"
+                  value={item.description}
+                  onChange={(e) => {
+                    const newAdd = [...addNew];
+                    newAdd[index].description = e.target.value;
+                    setAddNew(newAdd);
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="Category"
+                  className="w-full mb-2 p-2 border border-gray-300 rounded"
+                  value={item.category}
+                  onChange={(e) => {
+                    const newAdd = [...addNew];
+                    newAdd[index].category = e.target.value;
+                    setAddNew(newAdd);
+                  }}
+                />
+                <input
+                  type="file"
+                  className="w-full mb-2 p-2 border border-gray-300 rounded"
+                  onChange={(e) => {
+                    const newAdd = [...addNew];
+                    newAdd[index].video = e.target.files[0];
+                    newAdd[index].preview = URL.createObjectURL(e.target.files[0]);
+                    setAddNew(newAdd);
+                  }}
+                />
+                {item.preview && (
+                  <video
+                    src={item.preview}
+                    controls
+                    className="w-full h-auto object-cover rounded-md mb-2"
+                  />
+                )}
               </div>
-
-              <div>
-                <h1 className="font-bold text-2xl text-gray-700 mt-10 flex       hover:text-blue-600 transition-colors duration-300 cursor-pointer">
-                  Navigations
-                </h1>
-                <div className="w-full max-w-xs p-4 border border-gray-300 rounded-lg shadow-sm transition-all duration-300 hover:border-blue-500 hover:shadow-md cursor-pointer">
-                  <p className="text-gray-600 text-sm">Front end team</p>
-                </div>
-                <div className="w-full max-w-xs p-4 border border-gray-300 rounded-lg shadow-sm transition-all duration-300 hover:border-blue-500 hover:shadow-md cursor-pointer">
-                  <p className="text-gray-600 text-sm">Back end team</p>
-                </div>
-                <div className="w-full max-w-xs p-4 border border-gray-300 rounded-lg shadow-sm transition-all duration-300 hover:border-blue-500 hover:shadow-md cursor-pointer">
-                  <p className="text-gray-600 text-sm">front desk</p>
-                </div>
-                <div className="w-full max-w-xs p-4 border border-gray-300 rounded-lg shadow-sm transition-all duration-300 hover:border-blue-500 hover:shadow-md cursor-pointer">
-                  <p className="text-gray-600 text-sm">Media team</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col  ">
-              <h1 className="font-bold text-2xl text-gray-700 mt-10 fle  hover:text-blue-600 transition-colors duration-300 cursor-pointer">
-                Administrator
-              </h1>
-              <button className="flex flex-row gap-1.5 items-center pl-1 hover:text-blue-500">
-                <i class="fa-solid fa-key"></i>
-                Manage Access
+            ))}
+            <div className="flex justify-between">
+              <button
+                onClick={() => setFormOpen(false)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+              >
+                Cancel
               </button>
-              <button className="flex flex-row gap-1.5 items-center pl-1 hover:text-red-500">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Log out
+              <button
+                onClick={uploadSaveHandler}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+              >
+                Save
               </button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="w-full flex flex-col gap-0.5 ">
-        <nav className="w-full  bg-white shadow-md px-4 py-3 h-15  justify-center flex flex-row z-0">
-          {!isSidebarOpen && (
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="w-10 h-10 border rounded-[50%]  pt-1 shadow-2xl"
-            >
-              <i class="fa-solid fa-bars text-2xl hover:text-blue-600 transition-colors duration-300 cursor-pointer"></i>
-            </button>
-          )}
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center ">
-              <img src={logoimg} alt="logo" className="w-10 h-10" />
-
-              <h1 className="text-xl font-bold text-gray-800">
-                vanic soft admin portal
-              </h1>
+      {/* Edit Form */}
+      {isEditing && currentEdit && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg w-96">
+            <h2 className="text-2xl mb-4">Edit Work</h2>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Title"
+                className="w-full mb-2 p-2 border border-gray-300 rounded"
+                value={currentEdit.title}
+                onChange={(e) => setCurrentEdit({ ...currentEdit, title: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Description"
+                className="w-full mb-2 p-2 border border-gray-300 rounded"
+                value={currentEdit.description}
+                onChange={(e) => setCurrentEdit({ ...currentEdit, description: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Category"
+                className="w-full mb-2 p-2 border border-gray-300 rounded"
+                value={currentEdit.category}
+                onChange={(e) => setCurrentEdit({ ...currentEdit, category: e.target.value })}
+              />
+              <input
+                type="file"
+                className="w-full mb-2 p-2 border border-gray-300 rounded"
+                onChange={(e) => setCurrentEdit({ ...currentEdit, video: e.target.files[0] })}
+              />
+              <video
+                src={
+                  currentEdit.video instanceof File
+                    ? URL.createObjectURL(currentEdit.video)
+                    : currentEdit.video
+                }
+                controls
+                className="w-full h-auto object-cover rounded-md mb-2"
+              />
+            </div>
+            <div className="flex justify-between">
+              <button
+                onClick={handleEditCancel}
+                className="px-4 py-2 bg-gray-600 text-white rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleEditSave}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+              >
+                Save
+              </button>
             </div>
           </div>
-          <div className="w-17 relative bottom-1.5 ">
-            <img src="tg.png" alt="" />
-          </div>
-        </nav>
-
-        <div className="pl-3  h-[100vh]">
-          <div className="max-w-6xl relative  mx-auto  p-4 font-sans">
-            <h2 className="text-2xl font-bold mb-4 text-center  bg-gradient-to-r to-[#00D9E6] from-[#01667D] bg-clip-text  border text-transparent  ">
-              Records Table
-            </h2>
-            <div onClick={() => setShowForm(true)} className="overflow-x-auto">
-              <table className="w-full table-auto border border-gray-200 shadow-sm rounded">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="p-3 border">#</th>
-                    <th className="p-3 border">Name</th>
-                    <th className="p-3 border">Designation</th>
-                    <th className="p-3 border">Email</th>
-                    <th className="p-3 border">Contact</th>
-                    <th className="p-3 border">Location</th>
-                    <th className="p-3 border text-center">Actions</th>
-                    <th className="p-3 border">Download Card</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {records.length === 0 ? (
-                    <tr>
-                      <td colSpan="7" className="text-center p-4 text-gray-500">
-                        No records yet.
-                      </td>
-                    </tr>
-                  ) : (
-                    records.map((item, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="p-3 border">{index + 1}</td>
-                        <td className="p-3 border">{item.name}</td>
-                        <td className="p-3 border">{item.designation}</td>
-                        <td className="p-3 border">{item.email}</td>
-                        <td className="p-3 border">{item.contact}</td>
-                        <td className="p-3 border">{item.location}</td>
-                        <td className="p-3 border text-center space-x-2">
-                          <button
-                            onClick={() => handleEdit(index)}
-                            className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(index, item._id)}
-                            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                        <td className="p-3 border text-center space-x-2">
-                          <button
-                            onClick={() => handleDownload(index, item._id)}
-                            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
-                          >
-                            Download
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {showForm && (
-            <div
-              ref={formRef}
-              className="max-w-md mx-auto relative bottom-40  m-auto p-6 bg-white shadow-md rounded-md font-sans"
-            >
-              <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-                Add New Record
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  placeholder="Designation"
-                  name="designation"
-                  value={form.designation}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  placeholder="Contact"
-                  name="contact"
-                  value={form.contact}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  placeholder="Location"
-                  name="location"
-                  value={form.location}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-                  //   onClick={() => setShowForm(false)}
-                >
-                  {editIndex !== null ? "Update" : "Add"}
-                </button>
-              </form>
-            </div>
-          )}
         </div>
+      )}
+
+      {/* Header */}
+      <div className="heading text-5xl text-center font-bold">
+        <h1 className="mb-2">
+          Discover <span className="text-purple-600">Portfolio</span> websites
+        </h1>
+        <h1>built by the Avanic community</h1>
+      </div>
+
+      <button
+        onClick={() => setFormOpen(true)}
+        className="px-4 py-2 bg-gray-200 rounded-full text-sm font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer"
+      >
+        Add
+      </button>
+
+      {/* Category Buttons */}
+      <div className="sections-withbtn mt-6 flex flex-col md:flex-row items-center justify-between w-full pr-21 pl-21">
+        <div className="flex gap-4">
+          <button
+            onClick={() => setSearchTerm("")}
+            className="px-4 py-2 bg-gray-200 rounded-full text-sm font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer"
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSearchTerm(cat)}
+              className="px-4 py-2 bg-gray-200 rounded-full text-sm font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer"
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Cards */}
+      <div className="cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 mb-6 mr-20 ml-20">
+         {filteredCards.map((card) => (
+          <div
+            key={card._id}
+            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition"
+          >
+            <video
+              src={`${BACKEND_URL}${card.mediaUrl}`}
+              controls
+              className="w-full h-auto object-cover rounded-md"
+            />
+            <div className="text-btns flex flex-row justify-between items-center m-2">
+              {currentEdit && currentEdit._id === card._id ? (
+                // Edit view
+                <div className="flex flex-col w-full gap-2">
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    value={currentEdit.title}
+                    onChange={(e) => setCurrentEdit({ ...currentEdit, title: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Description"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    value={currentEdit.description}
+                    onChange={(e) => setCurrentEdit({ ...currentEdit, description: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Category"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    value={currentEdit.category}
+                    onChange={(e) => setCurrentEdit({ ...currentEdit, category: e.target.value })}
+                  />
+                  <input
+                    type="file"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    onChange={(e) => setCurrentEdit({ ...currentEdit, video: e.target.files[0] })}
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={handleEditCancel}
+                      className="bg-gray-200 rounded-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleEditSave}
+                      className="bg-blue-600 text-white rounded-full px-4 py-2 text-sm font-medium hover:bg-blue-500 transition"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                // Normal view
+                <>
+                  <div className="text">
+                    <h3 className="text-lg font-semibold text-gray-800 m-2">
+                      {card.title}
+                    </h3>
+                    <p className="description text-gray-500 text-sm m-2">
+                      {card.description}
+                    </p>
+                  </div>
+                  <div className="buttons flex gap-2">
+                    <button
+                      onClick={() => handleEditClick(card)}
+                      className="bg-gray-200 rounded-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={async () => {
+                        await axios.delete(`${BACKEND_URL}/api/works/delete/${card._id}`);
+                        fetchData();
+                      }}
+                      className="bg-gray-200 rounded-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
-};
-
-export default Portal;
+}
