@@ -16,6 +16,7 @@ import Card from "./pages/Card";
 import Portal from "./pages/Portal";
 import Layout from "./pages/Layout";
 import Work from "./pages/Work";
+import Contact from "./pages/Contact";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       <Route path="signup" element={<Signup />} />
       <Route path="card" element={<Card />} />
       <Route path="work" element={<Work />} />
+      <Route path="contact" element={<Contact />} />
     </Route>
       <Route path="portal" element={<Portal />} />
     </>
