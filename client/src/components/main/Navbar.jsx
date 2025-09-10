@@ -21,17 +21,14 @@ useEffect(() => {
     document.body.style.overflow = "auto";   // cleanup just in case
   };
 }, [menuOpen]);
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Featured", path: "/featured" },
-    { name: "Contact", path: "/contact" },
-  ];
 
-  // Active link comes from current route
-  const activePage =
-    navLinks.find((link) => link.path === location.pathname)?.name || "Home";
+const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "About Us", path: "/about" },
+    { name: "Services", path: "/services" },
+    { name: "Work", path: "/work" },
+    { name: "Contact Me", path: "/contact" },
+  ];
 
   const pageContent = {
     Home: {
@@ -49,7 +46,7 @@ useEffect(() => {
       title: "Our Services",
       desc: "From web apps to cloud solutions, we deliver tailored services that scale with your business.",
     },
-    Featured: {
+    Work: {
       subtitle: "Our Highlights",
       title: "Featured Projects",
       desc: "Explore some of our most impactful and innovative solutions.",
@@ -61,8 +58,12 @@ useEffect(() => {
     },
   };
 
+  const activePage =
+    navLinks.find((link) => link.path === location.pathname)?.name;
+
+
   const { subtitle, title, desc } =
-    pageContent[activePage] || pageContent.Home;
+    pageContent[activePage];
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
