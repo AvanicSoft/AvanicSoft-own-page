@@ -8,15 +8,16 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-// Pages
 import Main from "./pages/Main";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Card from "./pages/Card";
-import Portal from "./pages/Portal";
+import Portal from "./pages/portal";
 import Layout from "./pages/Layout";
 import Work from "./pages/Work";
 import Contact from "./pages/Contact";
+import About from "./pages/About";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,9 @@ const router = createBrowserRouter(
       <Route path="card" element={<Card />} />
       <Route path="work" element={<Work />} />
       <Route path="contact" element={<Contact />} />
+
+      <Route path="about" element={<About />} />
+
     </Route>
       <Route path="portal" element={<Portal />} />
     </>

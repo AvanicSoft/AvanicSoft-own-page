@@ -1,5 +1,5 @@
 import React from "react";
-import Theme from "../../assets/cardFront.jpeg";
+import Theme from "../../assets/CardFront.jpeg";
 import logoImg from "../../assets/AvanicLogo.png";
 import { Mail, Phone, MapPin, PanelsTopLeft } from "lucide-react";
 
