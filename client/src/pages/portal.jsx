@@ -3,7 +3,16 @@ import axios from "axios";
 
 const BACKEND_URL = "http://localhost:5000";
 
+const RingLoader = ({ className = "" }) => (
+  <div
+    className={`w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin ${className}`}
+  ></div>
+);
+
 export default function Work() {
+  const [loading, setLoading] = useState(false);
+  const [Save, setSave] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [cardsData, setCardsData] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
@@ -29,6 +38,8 @@ export default function Work() {
 
   // Add new work
   const uploadSaveHandler = async () => {
+    setLoading(true);
+    setSave(true);
     try {
       const formData = new FormData();
       formData.append("title", addNew[0].title);
@@ -44,6 +55,7 @@ export default function Work() {
       fetchData();
       setAddNew([{ id: 1, title: "", description: "", video: "", category: "" }]);
     } catch (err) {
+      setLoading(false);
       console.error(err);
     }
   };
@@ -156,9 +168,10 @@ export default function Work() {
               </button>
               <button
                 onClick={uploadSaveHandler}
+                disabled={loading}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md"
               >
-                Save
+                {loading ? <RingLoader /> : "Save"}
               </button>
             </div>
           </div>
