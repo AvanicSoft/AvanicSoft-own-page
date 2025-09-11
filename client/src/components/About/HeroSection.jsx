@@ -7,7 +7,7 @@ const HeroSection = () => {
       <div className="flex flex-col md:flex-row items-center justify-center gap-16 px-6 md:px-10 py-20 md:h-[70vh]">
         <div className="w-full md:max-w-xl">
           <img
-            src="three women in a meeting.png"
+            src="three-women-in-a-meeting.png"
             alt="Three women in a meeting"
             className="w-full max-w-lg rounded-xl"
           />
