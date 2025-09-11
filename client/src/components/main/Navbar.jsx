@@ -4,7 +4,7 @@ import { RiMenuLine, RiCloseLine, RiUserLine } from "react-icons/ri";
 import { Code } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImg from "../../assets/Avanicp.png";
-
+import ScrollIndicator from "../../components/main/ScrollIndicator"
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
@@ -205,6 +205,7 @@ const navLinks = [
           </AnimatePresence>
         </div>
       </div>
+      <ScrollIndicator/>
     </section>
   );
 }

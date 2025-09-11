@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 
 import Main from "./pages/Main";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 import Card from "./pages/Card";
 import Portal from "./pages/portal";
 import Layout from "./pages/Layout";

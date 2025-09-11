@@ -115,7 +115,7 @@ export default function ProcessSection() {
           <div
             key={index}
             ref={(el) => (slideRefs.current[index] = el)}
-            className="min-h-[70vh] w-full flex flex-col md:flex-row bg-white/10 back-transparent
+            className="min-h-[70vh] w-full flex flex-col md:flex-row bg-white/0 back-transparent
                        items-center justify-center px-6 sm:px-8 md:px-12 gap-6 md:gap-12 rounded-2xl shadow-sm 
                        border border-gray-700 transition-all duration-500 hover:shadow-purple-500/10"
           >
