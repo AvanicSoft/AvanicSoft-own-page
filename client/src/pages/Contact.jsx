@@ -6,7 +6,7 @@ const BACKEND_URL = "http://localhost:5000";
 
 
 
-const contact = () => {
+const Contact = () => {
 
 const [payload, setPayload] = useState({
   name: "",
@@ -178,4 +178,4 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default contact;
+export default Contact;
