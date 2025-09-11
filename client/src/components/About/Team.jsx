@@ -17,7 +17,7 @@ const teamMembersBottom = [
   {
     name: "Sami",
     title: "CTO",
-    image: "sami1.jpg",
+    image: "sami.jpg",
   },
   {
     name: "Ahmad",
