@@ -1,4 +1,6 @@
 import React from "react";
+import ThreeWomenImage from "../../assets/about/three-women-in-a-meeting.png";
+import OneManImage from "../../assets/about/one-men-image.png";
 
 const HeroSection = () => {
   return (
@@ -7,7 +9,7 @@ const HeroSection = () => {
       <div className="flex flex-col md:flex-row items-center justify-center gap-16 px-6 md:px-10 py-20 md:h-[70vh]">
         <div className="w-full md:max-w-xl">
           <img
-            src="three-women-in-a-meeting.png"
+            src={ThreeWomenImage}
             alt="Three women in a meeting"
             className="w-full max-w-lg rounded-xl"
           />
@@ -30,7 +32,7 @@ const HeroSection = () => {
       <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-20 px-4 md:px-10 py-20 md:h-[70vh] bg-gray-50">
         <div className="w-full md:max-w-xl">
           <img
-            src = "one-men-image.png"
+            src={OneManImage}
             alt="One man image"
             className="w-full max-w-lg rounded-xl"
           />

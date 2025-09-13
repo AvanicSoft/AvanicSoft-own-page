@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Calendar, Inbox, Play, Pause, Eye } from 'lucide-react';
 
@@ -106,14 +105,14 @@ const Work = () => {
         <div className="p-6">
           {/* Description */}
           <div className="mb-6">
+        
             <p className={`text-gray-600 leading-relaxed transition-all duration-300 ${
-              isHovered ? 'text-gray-700' : 'text-gray-600'
-            }`}>
-              {`project.description.length > 120 
-                ? ${project.description.substring(0, 120)}... 
-                : project.description
-              `}
-            </p>
+  isHovered ? 'text-gray-700' : 'text-gray-600'
+}`}>
+  {project.description?.slice(0, 120)}
+  {project.description?.length > 120 && '...'}
+</p>
+
           </div>
 
           {/* Action Buttons */}

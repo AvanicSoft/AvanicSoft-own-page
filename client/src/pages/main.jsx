@@ -15,7 +15,7 @@ export default function main(){
             <ClientLogos/>
             <ProcessSection/>
             <ServiceSection/>
-            <HeroSection/>
+            {/* <HeroSection/> */}
             <TechnologiesSection/>
             <TeamCTA/>
         </div>

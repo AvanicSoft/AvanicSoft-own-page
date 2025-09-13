@@ -1,17 +1,5 @@
 @import "tailwindcss";
-.Poppins {
-  font-family: 'Poppins', sans-serif;
-}
-body {
-  font-family: 'Poppins', sans-serif;
-}
-.Roboto {
-  font-family: 'Roboto', sans-serif;
-}
 
-.Inter{
-  sans:'Inter', 'sans-serif'
-}
 
 /* Hide scrollbar for Chrome, Safari, Opera */
 .scroll-hide::-webkit-scrollbar {
@@ -23,4 +11,3 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
-
