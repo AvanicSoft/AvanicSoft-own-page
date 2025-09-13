@@ -87,7 +87,7 @@ export default function Navbar() {
               <li key={link.name}>
                 <Link
                   to={link.path}
-                  className={`font-semibold py-3 px-4 transition-colors duration-400 ${
+                  className={`font-semibold py-[9px] px-4 transition-colors duration-400 ${
                     activePage === link.name
                       ? "bg-purple-300 text-black border-t-4 border-purple-500"
                       : "text-black hover:bg-purple-200 transition-colors duration-700"
@@ -125,7 +125,7 @@ export default function Navbar() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
+              exit={{ opacity: 0, y: 0 }}
               transition={{ duration: 0.3 }}
               className="top-14 h-screen bg-black/10  backdrop-blur-sm  w-full  md:hidden"
             >

@@ -16,14 +16,13 @@ const HeroSection = () => {
         </div>
         <div className="text-left max-w-md">
           <h2 className="text-2xl md:text-5xl font-light leading-tight mb-5">
-            Powering the world's most efficient fleets
+            Building Future-Ready Software Solutions
           </h2>
           <p className="text-lg leading-relaxed">
-            Starting with simple GPS tracking, we later evolved our offering to
-            include driver analytics, fuel efficiency, and field service
-            management. Fast forward to today, and Transpoco is now a leading
-            fleet management and telematics provider in the UK and across
-            Europe.
+            we transform ideas into powerful digital 
+            products. From web apps and mobile solutions to custom enterprise 
+            software, we empower businesses to grow, scale, and innovate with 
+            technology that truly makes an impact.
           </p>
         </div>
       </div>
@@ -39,13 +38,14 @@ const HeroSection = () => {
         </div>
         <div className="text-left max-w-md">
           <h2 className="text-4xl md:text-5xl font-light leading-tight mb-5">
-            Driven by a dream
+            Our Mission
           </h2>
           <p className="text-lg leading-relaxed">
-            Imagine a world where transport is free of pollution, traffic, and
-            accidents. This is the light that guides us, the dream that drives
-            us - from the technology that keeps your business moving forward, to
-            the expert advice that accelerates your growth.
+            We believe technology should be simple, scalable, and sustainable. 
+            Our mission is to deliver high-quality, tailored software solutions 
+            that help startups, enterprises, and organizations achieve their 
+            goals faster and smarter. With a dedicated team, we aim to be more 
+            than a service provider — we are your technology partner.
           </p>
         </div>
       </div>
