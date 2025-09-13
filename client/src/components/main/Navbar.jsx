@@ -4,7 +4,7 @@ import { RiMenuLine, RiCloseLine, RiUserLine } from "react-icons/ri";
 import { Code } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImg from "../../assets/Avanicp.png";
-import ScrollIndicator from "../../components/main/ScrollIndicator"
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
@@ -21,14 +21,17 @@ useEffect(() => {
     document.body.style.overflow = "auto";   // cleanup just in case
   };
 }, [menuOpen]);
-
-const navLinks = [
+  const navLinks = [
     { name: "Home", path: "/" },
-    { name: "About Us", path: "/about" },
+    { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
-    { name: "Work", path: "/work" },
-    { name: "Contact Me", path: "/contact" },
+    { name: "Featured", path: "/featured" },
+    { name: "Contact", path: "/contact" },
   ];
+
+  // Active link comes from current route
+  const activePage =
+    navLinks.find((link) => link.path === location.pathname)?.name || "Home";
 
   const pageContent = {
     Home: {
@@ -46,7 +49,7 @@ const navLinks = [
       title: "Our Services",
       desc: "From web apps to cloud solutions, we deliver tailored services that scale with your business.",
     },
-    Work: {
+    Featured: {
       subtitle: "Our Highlights",
       title: "Featured Projects",
       desc: "Explore some of our most impactful and innovative solutions.",
@@ -58,12 +61,8 @@ const navLinks = [
     },
   };
 
-  const activePage =
-    navLinks.find((link) => link.path === location.pathname)?.name;
-
-
   const { subtitle, title, desc } =
-    pageContent[activePage];
+    pageContent[activePage] || pageContent.Home;
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
@@ -205,7 +204,6 @@ const navLinks = [
           </AnimatePresence>
         </div>
       </div>
-      <ScrollIndicator/>
     </section>
   );
 }
