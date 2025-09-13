@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function ScrollIndicator({ navbarHeight = 70, colorGradient = "linear-gradient(90deg, #ff6b6b, #4ecdc4)" }) {
+export default function ScrollIndicator({ navbarHeight = 0, colorGradient = "linear-gradient(90deg, #ff6b6b, #4ecdc4)" }) {
   const [scrollWidth, setScrollWidth] = useState(0);
 
   useEffect(() => {
