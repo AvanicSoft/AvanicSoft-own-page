@@ -5,9 +5,7 @@ import React, { isValidElement } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:5000";
-
-
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const contact = () => {
 
@@ -34,7 +32,7 @@ const contact = () => {
       const { email } = payload;
 
       const sendRes = await axios.post(
-        `${BACKEND_URL}/api/contact/send-email`,
+        `${apiUrl}/api/contact/send-email`,
         { email },
       );
 

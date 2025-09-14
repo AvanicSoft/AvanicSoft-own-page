@@ -5,7 +5,7 @@ const workSchema  = require("../models/works");
 const { upload } = require("../middlewares/multer");
 const fs = require("fs");
 
-// Get all works
+
 router.get("/All", async (req, res) => {
   try {
     const works = await workSchema.find();
@@ -16,7 +16,7 @@ router.get("/All", async (req, res) => {
   }
 });
 
-// Create a new work
+
 router.post("/upload", upload.single("file"), async (req, res) => {
   try {
     const { title, description, category } = req.body;
@@ -36,14 +36,13 @@ router.put("/edit/:id", upload.single("file"), async (req, res) => {
     const id = req.params.id;
     const { title, description, category } = req.body;
 
-    // Find the current work
+    
     const work = await workSchema.findById(id);
     if (!work) return res.status(404).json({ error: "Work not found" });
 
-    // If a new file is uploaded, delete the old one
-    let mediaUrl = work.mediaUrl; // keep existing if no new file
+    let mediaUrl = work.mediaUrl;
     if (req.file) {
-      // Delete old file if exists
+     
       if (work.mediaUrl) {
         const oldFile = `./public/uploads/${work.mediaUrl.split("/").pop()}`;
         if (fs.existsSync(oldFile)) fs.unlinkSync(oldFile);
@@ -51,7 +50,6 @@ router.put("/edit/:id", upload.single("file"), async (req, res) => {
       mediaUrl = `/uploads/${req.file.filename}`;
     }
 
-    // Update the work
     const updatedWork = await workSchema.findByIdAndUpdate(
       id,
       { title, description, category, mediaUrl },
