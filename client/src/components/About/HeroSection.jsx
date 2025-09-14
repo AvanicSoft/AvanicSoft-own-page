@@ -1,6 +1,6 @@
 import React from "react";
-import ThreeWomenImage from "../../assets/about/three-women-in-a-meeting.png";
-import OneManImage from "../../assets/about/one-men-image.png";
+import ThreeWomenImage from "../../assets/About/three-women-in-a-meeting.png";
+import OneManImage from "../../assets/About/one-men-image.png";
 
 const HeroSection = () => {
   return (
