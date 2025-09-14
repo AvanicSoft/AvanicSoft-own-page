@@ -65,7 +65,7 @@ export default function Team() {
         </div>
 
         {/* Lower members */}
-        <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {teamMembersBottom.map((member, index) => (
             <div
               key={index}

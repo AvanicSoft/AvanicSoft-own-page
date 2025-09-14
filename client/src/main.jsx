@@ -8,7 +8,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import Main from "./pages/Main";
+import Main from "./pages/main";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Card from "./pages/Card";
