@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:5000";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const RingLoader = ({ className = "" }) => (
   <div
@@ -25,7 +25,7 @@ export default function Work() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`${BACKEND_URL}/api/works/All`);
+      const res = await axios.get(`${apiUrl }/api/works/All`);
       setCardsData(res.data);
     } catch (err) {
       console.error(err);
