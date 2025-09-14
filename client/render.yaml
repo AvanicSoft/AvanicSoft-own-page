@@ -1,4 +1,3 @@
-# render.yaml
 services:
   - type: web
     name: avanicsoft
@@ -8,3 +7,4 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
+        status: 200
