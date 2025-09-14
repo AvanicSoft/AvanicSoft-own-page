@@ -47,7 +47,7 @@ export default function Work() {
       formData.append("category", addNew[0].category);
       formData.append("file", addNew[0].video);
 
-      await axios.post(`${BACKEND_URL}/api/works/upload`, formData, {
+      await axios.post(`${apiUrl}/api/works/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -71,7 +71,7 @@ export default function Work() {
         formData.append("file", currentEdit.video);
       }
 
-      await axios.put(`${BACKEND_URL}/api/works/edit/${currentEdit._id}`, formData, {
+      await axios.put(`${apiUrl}/api/works/edit/${currentEdit._id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setIsEditing(false);
@@ -282,7 +282,7 @@ export default function Work() {
             className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition"
           >
             <video
-              src={`${BACKEND_URL}${card.mediaUrl}`}
+              src={`${apiUrl}${card.mediaUrl}`}
               controls
               className="w-full h-auto object-cover rounded-md"
             />
@@ -351,7 +351,7 @@ export default function Work() {
                     </button>
                     <button
                       onClick={async () => {
-                        await axios.delete(`${BACKEND_URL}/api/works/delete/${card._id}`);
+                        await axios.delete(`${apiUrl}/api/works/delete/${card._id}`);
                         fetchData();
                       }}
                       className="bg-gray-200 rounded-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer"
