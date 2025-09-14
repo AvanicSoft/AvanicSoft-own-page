@@ -11,9 +11,31 @@
       href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&family=Story+Script&display=swap"
       rel="stylesheet"
     />
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Kaisei Opti', serif;
+        background-color: #f9f9f9;
+      }
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+      .logo {
+        width: 150px;
+        height: 150px;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="spinner" class="loading">
+        <img src="Avanicp.png" alt="" class="logo" />
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
