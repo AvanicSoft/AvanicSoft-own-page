@@ -4,7 +4,6 @@
   const Contact = require("../models/contact");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-
 const router = express.Router();
 
 // POST /api/contact (open to public)

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import { FaTiktok, FaFacebookF, FaInstagram } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
-const apiUrl = "http://localhost:5000";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const TwitterIcon = () => <FaTiktok />;
 const InstagramIcon = () => <FaInstagram />;
