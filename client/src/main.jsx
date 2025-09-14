@@ -29,7 +29,6 @@ const router = createBrowserRouter(
       <Route path="card" element={<Card />} />
       <Route path="work" element={<Work />} />
       <Route path="contact" element={<Contact />} />
-
       <Route path="about" element={<About />} />
 
     </Route>
